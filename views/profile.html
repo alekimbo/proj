@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Your Profile</h1>
+    <p><strong>Username:</strong> <span id="username"></span></p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+    <a href="/auth/dashboard">Back to Dashboard</a>
+</body>
+<script>
+    fetch('/auth/profile')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load profile data.");
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('username').textContent = data.username;
+            document.getElementById('email').textContent = data.email;
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Could not load profile information.");
+        });
+</script>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Reviews</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .review {
+            margin-bottom: 20px;
+        }
+        .review h3 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .review p {
+            margin: 5px 0;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Song Reviews</h1>
+
+    <a href="/">Back to Dashboard</a>
+
+    <div id="reviews-container"></div>
+
+    <script>
+        // Fetch reviews from the server and display them
+        window.onload = async function() {
+            try {
+                const response = await fetch("/reviews/view");
+                const reviews = await response.json(); // Get reviews as JSON
+
+                const reviewsContainer = document.getElementById("reviews-container");
+
+                if (reviews.length > 0) {
+                    reviews.forEach(review => {
+                        const reviewDiv = document.createElement("div");
+                        reviewDiv.classList.add("review");
+
+                        const title = document.createElement("h3");
+                        title.textContent = review.title;
+                        reviewDiv.appendChild(title);
+
+                        const content = document.createElement("p");
+                        content.textContent = review.content;
+                        reviewDiv.appendChild(content);
+
+                        const userId = document.createElement("p");
+                        userId.textContent = `By User ${review.user_id}`;
+                        reviewDiv.appendChild(userId);
+
+                        reviewsContainer.appendChild(reviewDiv);
+                    });
+                } else {
+                    reviewsContainer.innerHTML = "<p>No reviews yet!</p>";
+                }
+            } catch (err) {
+                console.error("Error fetching reviews:", err);
+                document.getElementById("reviews-container").innerHTML = "<p>Failed to load reviews.</p>";
+            }
+        };
+    </script>
+</body>
+</html>

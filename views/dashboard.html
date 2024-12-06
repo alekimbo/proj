@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script>
+        // Fetch profile data when the page loads
+        window.onload = async function () {
+            try {
+                const response = await fetch("/auth/profile");
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById("username").textContent = data.username;
+                } else {
+                    document.getElementById("username").textContent = "Unknown User";
+                }
+            } catch (err) {
+                console.error("Error fetching profile:", err);
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Welcome!</h1>
+    <p>Hello <span id="username"></span>!</p>
+    <a href="/dashboard/about">About the Website</a>
+    <p>What do you want to do?</p>
+    <ul>
+        <li><a href="/auth/profile">View Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+    </ul>
+    <h2>Song Reviews</h2>
+    <ul>
+        <li><a href="/reviews/post">Post a Song Review</a></li>
+        <li><a href="/reviews">View Song Reviews</a></li>
+        <li><a href="/reviews/edit">Edit or Delete Your Review</a></li>
+    </ul>
+    <img src="/wink.gif" alt="Fun GIF" style="width: 300px; height: auto;">
+
+</body>
+</html>
